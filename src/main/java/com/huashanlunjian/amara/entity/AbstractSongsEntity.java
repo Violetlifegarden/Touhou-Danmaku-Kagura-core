@@ -32,8 +32,4 @@ public abstract class AbstractSongsEntity extends Entity implements ISongSet {
         return songProgress;
     }
 
-
-
-
-
 }
