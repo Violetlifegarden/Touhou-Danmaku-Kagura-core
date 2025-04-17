@@ -20,13 +20,12 @@
  *
  */
 
-package javazoom.spi.vorbis.sampled.file;
-
-import java.util.Map;
-
-import javax.sound.sampled.AudioFormat;
+package com.huashanlunjian.amara.utils.spi.vorbis.sampled.file;
 
 import org.tritonus.share.sampled.file.TAudioFileFormat;
+
+import javax.sound.sampled.AudioFormat;
+import java.util.Map;
 
 /**
  * @author JavaZOOM

@@ -20,13 +20,11 @@
  *
  */
  
-package javazoom.spi.vorbis.sampled.file;
-
-import java.util.Map;
-
-import javax.sound.sampled.AudioFormat;
+package com.huashanlunjian.amara.utils.spi.vorbis.sampled.file;
 
 import org.tritonus.share.sampled.TAudioFormat;
+
+import java.util.Map;
 
 /**
  * @author JavaZOOM
@@ -44,7 +42,7 @@ public class VorbisAudioFormat extends TAudioFormat
 	 * @param isBigEndian
 	 * @param properties
 	 */
-	public VorbisAudioFormat(AudioFormat.Encoding encoding, float nFrequency, int SampleSizeInBits, int nChannels, int FrameSize, float FrameRate, boolean isBigEndian, Map properties)
+	public VorbisAudioFormat(Encoding encoding, float nFrequency, int SampleSizeInBits, int nChannels, int FrameSize, float FrameRate, boolean isBigEndian, Map properties)
 	{
 		super(encoding, nFrequency, SampleSizeInBits, nChannels, FrameSize, FrameRate, isBigEndian, properties);
 	}

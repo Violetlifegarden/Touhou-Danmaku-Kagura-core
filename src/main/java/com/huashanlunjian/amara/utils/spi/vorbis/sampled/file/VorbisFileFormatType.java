@@ -20,7 +20,7 @@
  *
  */
 
-package javazoom.spi.vorbis.sampled.file;
+package com.huashanlunjian.amara.utils.spi.vorbis.sampled.file;
 
 import javax.sound.sampled.AudioFileFormat;
 

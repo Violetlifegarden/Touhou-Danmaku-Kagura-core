@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import static net.minecraft.resources.ResourceLocation.isValidNamespace;
 import static net.minecraft.resources.ResourceLocation.isValidPath;
 
-public class ResourceLocationUtil {
+public class FileUtil {
     public static boolean isValidResourceLocation(String pLocation) {
         String[] astring = decompose(pLocation, ':');
         return isValidNamespace(StringUtils.isEmpty(astring[0]) ? "minecraft" : astring[0]) && isValidPath(astring[1]);
@@ -34,7 +34,7 @@ public class ResourceLocationUtil {
     public static ResourceLocation getResourceLocation(String pLocation) {
         return ResourceLocation.fromNamespaceAndPath(Amara.MOD_ID, pLocation);
     }
-
+    /**这里说明一下，目前是加载单个谱面。如果是多个谱面需要再创建一个新的*/
     public static boolean containsFileWithExtension(Path dir, String extension) {
         if (!Files.isDirectory(dir)) return false;
 
@@ -45,5 +45,8 @@ public class ResourceLocationUtil {
         }catch (IOException e){
             return false;
         }
+    }
+    public static boolean containsSimpleFileWithExtension(Path dir, String extension) {
+        return dir.toString().endsWith(extension);
     }
 }

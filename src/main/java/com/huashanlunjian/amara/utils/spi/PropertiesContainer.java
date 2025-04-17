@@ -21,7 +21,7 @@
  *----------------------------------------------------------------------
  */
 
-package javazoom.spi;
+package com.huashanlunjian.amara.utils.spi;
 
 import java.util.Map;
 

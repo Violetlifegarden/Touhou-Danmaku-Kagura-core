@@ -21,21 +21,9 @@
  * ----------------------------------------------------------------------------
  */
  
-package javazoom.spi.vorbis.sampled.convert;
+package com.huashanlunjian.amara.utils.spi.vorbis.sampled.convert;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-
-import javazoom.spi.PropertiesContainer;
-
-import org.tritonus.share.TDebug;
-import org.tritonus.share.sampled.convert.TAsynchronousFilteredAudioInputStream;
-
+import com.huashanlunjian.amara.utils.spi.PropertiesContainer;
 import com.jcraft.jogg.Packet;
 import com.jcraft.jogg.Page;
 import com.jcraft.jogg.StreamState;
@@ -44,6 +32,15 @@ import com.jcraft.jorbis.Block;
 import com.jcraft.jorbis.Comment;
 import com.jcraft.jorbis.DspState;
 import com.jcraft.jorbis.Info;
+import org.tritonus.share.TDebug;
+import org.tritonus.share.sampled.convert.TAsynchronousFilteredAudioInputStream;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class implements the Vorbis decoding.

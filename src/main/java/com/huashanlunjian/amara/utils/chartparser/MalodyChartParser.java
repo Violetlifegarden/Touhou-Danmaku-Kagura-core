@@ -1,4 +1,6 @@
 package com.huashanlunjian.amara.utils.chartparser;
 
-public class MalodyChartParser {
+import com.huashanlunjian.amara.utils.ChartParser;
+
+public class MalodyChartParser extends ChartParser {
 }

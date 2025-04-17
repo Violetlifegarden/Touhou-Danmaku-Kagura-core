@@ -1,4 +1,11 @@
 package com.huashanlunjian.amara.music_game_core.chart;
 
-public class PhiraChart {
+import com.huashanlunjian.amara.music_game_core.AbstractChart;
+
+import java.util.Map;
+
+public class PhiraChart extends AbstractChart {
+    public PhiraChart(Map<String, Object> chart) {
+        super(chart);
+    }
 }

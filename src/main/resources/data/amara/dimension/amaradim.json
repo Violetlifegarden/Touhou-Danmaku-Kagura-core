@@ -1,0 +1,22 @@
+{
+  "type": "amara:amaradim_type",
+  "generator": {
+    "type": "minecraft:flat",
+    "display": "minecraft:barrier",
+    "settings": {
+      "biome": "minecraft:the_void",
+      "features": true,
+      "layers": [
+        {
+          "height": 1,
+          "block": "minecraft:air"
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+

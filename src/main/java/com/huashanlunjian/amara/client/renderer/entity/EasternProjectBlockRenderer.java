@@ -1,6 +1,6 @@
 package com.huashanlunjian.amara.client.renderer.entity;
 
-import com.huashanlunjian.amara.entity.EasternProjectNote;
+import com.huashanlunjian.amara.entity.EasternProjectBlock;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -20,13 +20,13 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
-public class EasternProjectNoteRenderer extends EntityRenderer<EasternProjectNote> {
-    public EasternProjectNoteRenderer(EntityRendererProvider.Context manager) {
+public class EasternProjectBlockRenderer extends EntityRenderer<EasternProjectBlock> {
+    public EasternProjectBlockRenderer(EntityRendererProvider.Context manager) {
         super(manager);
         shadowRadius = 0.0f;
     }
     @Override
-    public void render(com.huashanlunjian.amara.entity.EasternProjectNote entity, float yaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int light) {
+    public void render(EasternProjectBlock entity, float yaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int light) {
         if (entity.getBlockState() != null) {
             BlockState blockstate = entity.getBlockState();
 
@@ -64,7 +64,7 @@ public class EasternProjectNoteRenderer extends EntityRenderer<EasternProjectNot
     }
 
     @Override
-    public ResourceLocation getTextureLocation(com.huashanlunjian.amara.entity.EasternProjectNote entity) {
+    public ResourceLocation getTextureLocation(EasternProjectBlock entity) {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 }

@@ -3,7 +3,6 @@ package com.huashanlunjian.amara.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,9 +23,9 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class EasternProjectNote extends Entity{
+public class EasternProjectBlock extends AbstractNote{
     private static final int WARMUP_TIME = 20;
-    private static final EntityDataAccessor<Direction> MOVE_DIRECTION = SynchedEntityData.defineId(EasternProjectNote.class, EntityDataSerializers.DIRECTION);
+    private static final EntityDataAccessor<Direction> MOVE_DIRECTION = SynchedEntityData.defineId(EasternProjectBlock.class, EntityDataSerializers.DIRECTION);
 
     private BlockState myState;
     private int slideTime;
@@ -39,12 +37,12 @@ public class EasternProjectNote extends Entity{
         System.out.println("EasternProjectNote");
     }
 
-    public EasternProjectNote(EntityType<? extends EasternProjectNote> type, Level world) {
+    public EasternProjectBlock(EntityType<? extends EasternProjectBlock> type, Level world) {
         super(type, world);
         this.blocksBuilding = true;
     }
 
-    public EasternProjectNote(EntityType<? extends EasternProjectNote> type, Level world, double x, double y, double z, BlockState state) {
+    public EasternProjectBlock(EntityType<? extends EasternProjectBlock> type, Level world, double x, double y, double z, BlockState state) {
         super(type, world);
 
         this.myState = state;
@@ -185,13 +183,13 @@ public class EasternProjectNote extends Entity{
     }
 
     @Override
-    protected void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
         this.slideTime = compound.getInt("Time");
         this.getEntityData().set(MOVE_DIRECTION, Direction.from3DDataValue(compound.getByte("Direction")));
     }
 
     @Override
-    protected void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
         compound.putInt("Time", this.slideTime);
         compound.putByte("Direction", (byte) this.getEntityData().get(MOVE_DIRECTION).get3DDataValue());
     }

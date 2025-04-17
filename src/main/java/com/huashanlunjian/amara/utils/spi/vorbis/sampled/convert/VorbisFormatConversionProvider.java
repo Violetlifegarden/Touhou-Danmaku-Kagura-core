@@ -20,14 +20,14 @@
  *
  */
  
-package javazoom.spi.vorbis.sampled.convert;
+package com.huashanlunjian.amara.utils.spi.vorbis.sampled.convert;
 
-import java.util.Arrays;
-import javazoom.spi.vorbis.sampled.file.VorbisEncoding;
+import com.huashanlunjian.amara.utils.spi.vorbis.sampled.file.VorbisEncoding;
+import org.tritonus.share.sampled.convert.TMatrixFormatConversionProvider;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
-
-import org.tritonus.share.sampled.convert.TMatrixFormatConversionProvider;
+import java.util.Arrays;
 
 /**
  * ConversionProvider for VORBIS files.

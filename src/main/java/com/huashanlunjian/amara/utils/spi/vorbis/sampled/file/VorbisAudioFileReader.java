@@ -20,36 +20,21 @@
  *
  */
  
-package javazoom.spi.vorbis.sampled.file;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import org.tritonus.share.TDebug;
-import org.tritonus.share.sampled.file.TAudioFileReader;
+package com.huashanlunjian.amara.utils.spi.vorbis.sampled.file;
 
 import com.jcraft.jogg.Packet;
 import com.jcraft.jogg.Page;
 import com.jcraft.jogg.StreamState;
 import com.jcraft.jogg.SyncState;
-import com.jcraft.jorbis.Block;
-import com.jcraft.jorbis.Comment;
-import com.jcraft.jorbis.DspState;
-import com.jcraft.jorbis.Info;
-import com.jcraft.jorbis.JOrbisException;
-import com.jcraft.jorbis.VorbisFile;
+import com.jcraft.jorbis.*;
+import org.tritonus.share.TDebug;
+import org.tritonus.share.sampled.file.TAudioFileReader;
+
+import javax.sound.sampled.*;
+import java.io.*;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * This class implements the AudioFileReader class and provides an

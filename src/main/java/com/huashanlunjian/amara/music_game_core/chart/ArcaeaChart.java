@@ -1,4 +1,11 @@
 package com.huashanlunjian.amara.music_game_core.chart;
 
-public class ArcaeaChart {
+import com.huashanlunjian.amara.music_game_core.AbstractChart;
+
+import java.util.Map;
+
+public class ArcaeaChart extends AbstractChart {
+    public ArcaeaChart(Map<String, Object> chart) {
+        super(chart);
+    }
 }
