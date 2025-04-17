@@ -7,10 +7,10 @@ import static com.huashanlunjian.amara.utils.FileUtil.containsFileWithExtension;
 import static com.huashanlunjian.amara.utils.FileUtil.containsSimpleFileWithExtension;
 
 public enum ChartCategories {
-    DEFAULT(".json"),
+    AMARA(".amara"),
     ARCAEA(".aff"),
-    //PHIRA("json"),
     MALODY(".mc"),
+    PHIRA(".json"),
     OSU(".osu");
 
 
@@ -24,7 +24,7 @@ public enum ChartCategories {
         return category;
     }
     public static ChartCategories getChartCategory(Path path) {
-        //.chart是默认谱面文件
+        //.amara是默认谱面文件
         for (ChartCategories extension : List.of(ChartCategories.values())){
             if (containsSimpleFileWithExtension(path, extension.getCategory())){
                 return extension;
@@ -33,7 +33,7 @@ public enum ChartCategories {
         return null;
     }
     public static ChartCategories getChartCategoryByPath(Path path) {
-        //.chart是默认谱面文件
+        //.amara是默认谱面文件
         for (ChartCategories extension : List.of(ChartCategories.values())){
             if (containsFileWithExtension(path, extension.getCategory())){
                 return extension;

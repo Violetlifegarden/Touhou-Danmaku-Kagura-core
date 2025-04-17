@@ -19,6 +19,7 @@ import java.io.IOException;
  * Opus解码器工具类
  */
 @OnlyIn(Dist.CLIENT)
+@Deprecated
 public final class OpusDecoderUtil {
 
     private static final int MAX_FRAME_SIZE = 5;

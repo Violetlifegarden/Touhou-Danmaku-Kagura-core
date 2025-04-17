@@ -10,7 +10,7 @@ public interface IChartSet {
 
     String getCharter();
 
-    int getBpm();
+    float getBpm();
 
     int getMaxTime();
 

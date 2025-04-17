@@ -23,16 +23,4 @@ public class NetworkHandler {
 
     }
 
-    public static void sendToNearby(Entity entity, CustomPacketPayload toSend) {
-        if (entity.level() instanceof ServerLevel) {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, toSend);
-        }
-    }
-
-    public static void sendToNearby(Entity entity, CustomPacketPayload toSend, int distance) {
-        if (entity.level() instanceof ServerLevel serverLevel) {
-            BlockPos pos = entity.blockPosition();
-            PacketDistributor.sendToPlayersNear(serverLevel, null, pos.getX(), pos.getY(), pos.getZ(), distance, toSend);
-        }
-    }
 }

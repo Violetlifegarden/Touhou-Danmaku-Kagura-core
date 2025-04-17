@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Deprecated
 public class GameThread implements Runnable{
     public final int[] time = {0};
     private final ServerBossEvent songProgress;

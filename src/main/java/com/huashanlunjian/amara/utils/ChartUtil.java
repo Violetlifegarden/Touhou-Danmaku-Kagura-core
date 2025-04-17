@@ -9,14 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedTransferQueue;
 
 public class ChartUtil {
     public static AbstractChart loadChart(Path path){
-        //Map<String, Object> json = loadJson(path);
         return switch (ChartCategories.getChartCategory(path).getCategory()){
             case ".mc" -> new MalodyChart(loadJson(path));
             case ".aff" -> new ArcaeaChart(loadJson(path));
@@ -74,9 +71,9 @@ public class ChartUtil {
         return (String) getMalodySong(json).get("artist");
     }
     public static String getMalodyTitle(Map<String, Object> json){
-        return (String) getMalodySong(json).get("title");
+        return getMalodySong(json).get("titleorg")==null?(String) getMalodySong(json).get("title"):getMalodyTitleOrg(json);
     }
-    public static String getMalodyTitleOrg(Map<String, Object> json){
+    private static String getMalodyTitleOrg(Map<String, Object> json){
         return (String) getMalodySong(json).get("titleorg");
     }
 
@@ -111,7 +108,7 @@ public class ChartUtil {
             },
     * */
     /**适用于bpm不变的谱面*/
-    public static int getMalodySimpleBPM(Map<String, Object> json){
+    public static float getMalodySimpleBPM(Map<String, Object> json){
         Object bpmValue= ((List<Map<String, Object>>) json.get("time")).get(0).get("bpm");
         return ((Number) bpmValue).intValue();
     }
@@ -119,7 +116,7 @@ public class ChartUtil {
     public static List<Map<String, Object>> getMalodyBPM(Map<String, Object> json){
         return (List<Map<String, Object>>) json.get("time");
     }
-    /**这个是谱面通用的*/
+    /**这个是Malody和Amara格式专用的*/
     public static List<Map<String, Object>> getNotes(Map<String, Object> json){
         return (List<Map<String, Object>>) json.get("note");
     }
@@ -137,7 +134,7 @@ public class ChartUtil {
 
         return new ConcurrentLinkedQueue<>(notes);
     }
-    public static int getMalodyNoteTime(Map<String, Object> note,int bpm){
+    public static float getMalodyNoteTime(Map<String, Object> note,float bpm){
         List<Integer> beat = (List<Integer>) note.get("beat");
         return (((beat).getFirst()+beat.get(1)/beat.get(2))* 60000)/bpm;
     }

@@ -2,6 +2,7 @@ package com.huashanlunjian.amara.music_game_core;
 
 import com.huashanlunjian.amara.screen.gui.SelectSongsScreen;
 import com.huashanlunjian.amara.utils.ChartCategories;
+import com.huashanlunjian.amara.utils.MiscUtils;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
@@ -36,7 +37,6 @@ import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 
 import static com.huashanlunjian.amara.utils.FileUtil.containsFileWithExtension;
-
 /**
  * <p>
  *     歌单
@@ -53,11 +53,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
     private final Path songsdir = Path.of("./songs");
     private CompletableFuture<List<SongsSummary>> songslist;
     private List<SongsSummary> currentlyDisplayedLevels;
-
-
-
-
-
 
     /**这里有一个问题是是否要每次加载list时都要加载一次songs文件夹
     * 如果歌太多每次加载都会很卡，如果只加载一次那么歌曲列表就不能及时更新。
@@ -89,13 +84,9 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
                 this.notifyListUpdated();
             });
         });
-        //((ServerPlayer)player).changeDimension();
-        //if (!player.level().isClientSide()){
-        //ServerLevel level =  this.player.getServer().getLevel((player).getServer().overworld().dimension());
-
-        //}
 
     }
+    /**歌曲搜索功能还没有实现*/
     private List<SongsDirectory> loadSongsList() {
         if (!Files.isDirectory(this.songsdir)) {
             throw new LevelStorageException(Component.translatable("selectWorld.load_folder_access"));
@@ -118,8 +109,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             }
         }
     }
-    /**
-     * 没有加任何异常处理程序，因为我没试过可能出现的问题，以后记得加上一些普通的异常处理*/
     private CompletableFuture<List<SongsSummary>> loadSongs() {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -145,6 +134,7 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             return null;
         }
     }
+    @Deprecated
     void reloadWorldList() {
         this.songslist = this.loadSongs();
     }
@@ -161,24 +151,15 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
 
         this.currentlyDisplayedLevels = levels;
     }
-    /*
-    private void fillLoadingSongs() {
-        this.clearEntries();
-        this.addEntry(this.loadingHeader);
-        this.notifyListUpdated();
-    }*/
+
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (CommonInputs.selected(keyCode)) {
             Optional<SongsListEntry> optional = this.getSelectedOpt();
             if (optional.isPresent()) {
-                //if (optional.get().canJoin()) {
                 this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 optional.get().summary.getAudiofile();
-                System.out.println("clicked");
-                    //optional.get().joinWorld();
-                //}
-
+                MiscUtils.enterMusicGame(optional.get().summary, this.minecraft.player);
                 return true;
             }
         }
@@ -302,7 +283,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
                     if (basicfileattributes.isSymbolicLink()) {
                         List<ForbiddenSymlinkInfo> list = this.minecraft.directoryValidator().validateSymlink(this.iconFile);
                         if (!list.isEmpty()) {
-                            //SongsSelectionList.LOGGER.warn("{}", ContentValidationException.getMessage(this.iconFile, list));
                             this.iconFile = null;
                         } else {
                             basicfileattributes = Files.readAttributes(this.iconFile, BasicFileAttributes.class);
@@ -315,7 +295,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
                 } catch (NoSuchFileException nosuchfileexception) {
                     this.iconFile = null;
                 } catch (IOException ioexception) {
-                    //WorldSelectionList.LOGGER.error("could not validate symlink", (Throwable)ioexception);
                     this.iconFile = null;
                 }
             }
@@ -350,10 +329,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             RenderSystem.disableBlend();
             if (this.minecraft.options.touchscreen().get() || hovering) {
                 guiGraphics.fill(left, top, left + 32, top + 32, -1601138544);
-                //int j = mouseX - left;
-                //boolean flag = j < 32;
-                //guiGraphics.blitSprite(resourcelocation, left, top, 32, 32);
-
             }
         }
 
@@ -362,7 +337,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             Component component = Component.translatable(
                     "screenshot.failure",
                     this.summary.getSongsId(),
-                    //Component.translationArg(new Date(this.summary.getSongsId())),
                     this.summary.getCharter()
             );
 
@@ -377,14 +351,10 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
                 this.lastClickTime = Util.getMillis();
                 return super.mouseClicked(mouseX, mouseY, button);
             } else {
-                //if (this.canJoin()) {
                 /**
                  * 这里进入新维度*/
                 this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                System.out.println("进入新维度");
-                //this.joinWorld();
-                //}
-
+                MiscUtils.enterMusicGame(this.summary, this.minecraft.player);
                 return true;
             }
 
@@ -395,7 +365,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
                 try (InputStream inputstream = Files.newInputStream(this.iconFile)) {
                     this.icon.upload(NativeImage.read(inputstream));
                 } catch (Throwable throwable) {
-                    //WorldSelectionList.LOGGER.error("Invalid icon for world {}", this.summary.getLevelId(), throwable);
                     this.iconFile = null;
                 }
             } else {
@@ -415,14 +384,9 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
 
     @Deprecated
     public record SongsDirectory(Path path) {
-        //private final ChartCategories category = getChartCategory();
         public String directoryName() {
             return this.path.getFileName().toString();
         }
-
-//        public Path chartFile() throws IOException {
-//            return this.resourcePath(getChart());
-//        }
 
         /*这个类将在之后的版本被移除。*/
         public Path chartFile() throws IOException {
@@ -460,7 +424,4 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
         }
 
     }
-
-    //public final class SongsListEntry
-
 }

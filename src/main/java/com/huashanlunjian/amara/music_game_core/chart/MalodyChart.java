@@ -31,7 +31,7 @@ public class MalodyChart extends AbstractChart {
     public String getCharter() {
         return this.charter;
     }
-    public int getBpm() {
+    public float getBpm() {
         return this.bpm;
     }
     @Override

@@ -26,6 +26,7 @@ import java.util.zip.ZipFile;
 /**
  *  暂时用不到
  */
+@Deprecated
 public final class OggReader {
     public static void readSoundDataFromFile(File file, List<SoundData> sounds, Marker marker) {
         Path path = file.toPath();

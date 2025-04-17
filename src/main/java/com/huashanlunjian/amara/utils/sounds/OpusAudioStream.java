@@ -14,6 +14,7 @@ import java.nio.ByteBuffer;
  * 暂时用不到。
  * Opus音频流，用于从Opus音频数据中读取音频数据。
  */
+@Deprecated
 public class OpusAudioStream implements AudioStream {
     private final InputStream stream;
     private final AudioFormat format;

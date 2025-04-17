@@ -28,8 +28,6 @@ public class Boss extends AbstractSongsEntity {
     private int index = 0;
 
 
-
-
     public Boss(EntityType<? extends AbstractSongsEntity> type, Level world) {
         super(type, world);
         this.entity = this;
@@ -72,10 +70,6 @@ public class Boss extends AbstractSongsEntity {
                 }
             }
         }
-
-        //Tap tap = new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(1,0,0), this);
-        //this.level().addFreshEntity(tap);
-
     }
 
 
