@@ -29,12 +29,10 @@ public class SelectSongsScreen extends Screen {
     @Override
     protected void init() {
         this.searchBox = new EditBox(this.font, this.width / 2 - 100, 22, 200, 20, this.searchBox, Component.translatable("selectWorld.search"));
-        //this.searchBox.setResponder(p_232980_ -> this.list.updateFilter(p_232980_));
         this.list = this.addRenderableWidget(
                 new SongsSelectionList(this, this.minecraft, this.width, this.height - 112, 48, 36, this.searchBox.getValue(), this.list)
         );
         this.addWidget(this.searchBox);
-        //this.updateButtonStatus(null);
         this.selectButton = this.addRenderableWidget(
                 Button.builder(LevelSummary.PLAY_WORLD, p_232984_ -> {
                         if (list.getSelectedOpt().isPresent()) {

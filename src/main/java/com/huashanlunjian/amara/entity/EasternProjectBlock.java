@@ -30,12 +30,6 @@ public class EasternProjectBlock extends AbstractNote{
     private BlockState myState;
     private int slideTime;
 
-    //////////////////////
-    //private Track track;
-
-    static {
-        System.out.println("EasternProjectNote");
-    }
 
     public EasternProjectBlock(EntityType<? extends EasternProjectBlock> type, Level world) {
         super(type, world);
