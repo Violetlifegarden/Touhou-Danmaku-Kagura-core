@@ -116,7 +116,7 @@ public class ChartUtil {
     public static List<Map<String, Object>> getMalodyBPM(Map<String, Object> json){
         return (List<Map<String, Object>>) json.get("time");
     }
-    /**这个是Malody和Amara格式专用的*/
+    /**这个是Amara格式专用的，Malody不应该用这个。之后得换掉它*/
     public static List<Map<String, Object>> getNotes(Map<String, Object> json){
         return (List<Map<String, Object>>) json.get("note");
     }
