@@ -46,7 +46,6 @@ public class EasternProjectBlock extends AbstractNote{
         this.xo = x;
         this.yo = y;
         this.zo = z;
-        //this.track = track;
 
         this.determineMoveDirection();
     }

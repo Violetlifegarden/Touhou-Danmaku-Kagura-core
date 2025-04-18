@@ -21,9 +21,7 @@ public abstract class AbstractChart implements IChartSet {
     public String getDifficulty() {
         return "";
     }
-//    public  PriorityQueue<AbstractNote> getNotes() {
-//        return notes;
-//    }
+
     public String getArtist() {
 
         return "";

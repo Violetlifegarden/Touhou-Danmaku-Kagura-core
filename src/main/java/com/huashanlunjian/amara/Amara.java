@@ -79,15 +79,10 @@ public class Amara {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, ENVIRO_DIR + name);
     }
 
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event){
-//        InitEntities.ENTITIES.getEntries().forEach(entityType -> {
-//            event.registerEntityRenderer(entityType.get(), renderManager -> new EasternProjectNoteRenderer(renderManager));
-//        });
             event.registerEntityRenderer(InitEntities.EASTERNPROJECTBLOCK.get(), EasternProjectBlockRenderer::new);
             event.registerEntityRenderer(InitEntities.TAP.get(), TapRenderer::new);
             event.registerEntityRenderer(InitEntities.DEMOSONG.get(), SongsEntityRenderer<Boss>::new);

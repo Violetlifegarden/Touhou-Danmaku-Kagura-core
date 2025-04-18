@@ -19,9 +19,7 @@ public class MalodyChart extends AbstractChart {
     public String getDifficulty() {
         return "";
     }
-    //    public  PriorityQueue<AbstractNote> getNotes() {
-//        return notes;
-//    }
+
     public String getArtist() {
         return this.artist;
     }
