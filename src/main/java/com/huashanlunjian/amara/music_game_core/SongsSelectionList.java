@@ -3,6 +3,7 @@ package com.huashanlunjian.amara.music_game_core;
 import com.huashanlunjian.amara.screen.gui.SelectSongsScreen;
 import com.huashanlunjian.amara.utils.ChartCategories;
 import com.huashanlunjian.amara.utils.MiscUtils;
+import com.huashanlunjian.amara.utils.PNGTexture;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
@@ -10,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.navigation.CommonInputs;
-import net.minecraft.client.gui.screens.FaviconTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -264,7 +264,7 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
         private final Minecraft minecraft;
         private final SelectSongsScreen screen;
         final SongsSummary summary;
-        private final FaviconTexture icon;
+        private final PNGTexture icon;
         @Nullable
         private Path iconFile;
         private long lastClickTime;
@@ -273,7 +273,7 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             this.minecraft = worldSelectionList.minecraft;
             this.screen = worldSelectionList.getScreen();
             this.summary = summary;
-            this.icon = FaviconTexture.forWorld(this.minecraft.getTextureManager(), summary.getSongsId());
+            this.icon = PNGTexture.forWorld(this.minecraft.getTextureManager(), summary.getSongsId());
             this.iconFile = summary.getIcon();
             this.validateIconFile();
             this.loadIcon();
@@ -396,8 +396,8 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
         }
 
 
-        public Path iconFile() {
-            return this.resourcePath("icon.png");
+        public Path iconFile() throws IOException {
+            return this.resourcePath(getIcon());
         }
 
         public Path audioFile() throws IOException {
@@ -429,6 +429,11 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             else if (containsFileWithExtension(this.path, ".mp3")) {
                 return findFilesByExtension(String.valueOf(this.path), ".mp3").getFirst();
             } else throw new FileNotFoundException("音频格式错误");
+        }
+        private String getIcon() throws IOException {
+            //.png是默认图标文件
+            if (containsFileWithExtension(this.path, ".png"))return findFilesByExtension(String.valueOf(this.path), ".png").getFirst();
+            else throw new FileNotFoundException("图标格式错误");
         }
 
     }
