@@ -40,6 +40,5 @@ public abstract class AbstractChart<C> implements IChartSet {
     public List<C> getNotes() {
         return notes;
     }
-
-
+    public abstract float getNoteTime(Integer index,float bpm);
 }

@@ -24,7 +24,7 @@ public class Boss extends AbstractSongsEntity {
     private final AbstractSongsEntity entity;
     private Path audiofile ;
     private Random random = new Random();
-    private List<Map<String, Object>> chartNotes;
+    private List chartNotes;
     private int index = 0;
 
 
@@ -53,7 +53,7 @@ public class Boss extends AbstractSongsEntity {
 
             while (true){
                 try {
-                    if (ChartUtil.getMalodyNoteTime(chartNotes.get(index),this.bpm)<System.currentTimeMillis()-time[0]){
+                    if (chart.getNoteTime(index,bpm)<System.currentTimeMillis()-time[0]){
                         Tap tap = new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(2*random.nextFloat()-1,-random.nextFloat(),2*random.nextFloat()-1), this);
                         this.level().addFreshEntity(tap);
                         if (index<chartNotes.size()-1){

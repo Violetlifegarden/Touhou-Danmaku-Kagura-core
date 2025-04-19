@@ -8,4 +8,9 @@ public class PhiraChart extends AbstractChart {
     public PhiraChart(Map<String, Object> chart) {
         super();
     }
+
+    @Override
+    public float getNoteTime(Integer index, float bpm) {
+        return 0;
+    }
 }

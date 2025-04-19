@@ -3,6 +3,7 @@ package com.huashanlunjian.amara.music_game_core.chart;
 import com.huashanlunjian.amara.music_game_core.AbstractChart;
 import com.huashanlunjian.amara.utils.ChartUtil;
 
+import java.util.List;
 import java.util.Map;
 
 public class MalodyChart extends AbstractChart<Map<String, Object>> {
@@ -33,8 +34,17 @@ public class MalodyChart extends AbstractChart<Map<String, Object>> {
     public float getBpm() {
         return this.bpm;
     }
+    /**这玩意绝对有问题，之后得重写*/
     @Override
     public int getMaxTime() {
         return this.maxTime/10000;
+    }
+    public List<Map<String, Object>> getNotes() {
+        return this.notes;
+    }
+
+    @Override
+    public float getNoteTime(Integer index, float bpm) {
+        return ChartUtil.getMalodyNoteTime(notes.get(index),this.bpm);
     }
 }

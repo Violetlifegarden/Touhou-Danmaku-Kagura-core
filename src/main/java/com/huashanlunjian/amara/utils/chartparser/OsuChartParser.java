@@ -32,7 +32,7 @@ public class OsuChartParser {
 
                 switch(currentSection) {
                     case "[Metadata]":
-                        parseMetadata(reader);
+                        parseMetadata(reader, line);
                         break;
 
                     case "[HitObjects]":
@@ -57,8 +57,7 @@ public class OsuChartParser {
         this.maxTime = list.getLast();
         return list;
     }
-    private void parseMetadata(BufferedReader reader) throws IOException {
-        String line =reader.readLine();
+    private void parseMetadata(BufferedReader reader,String line) throws IOException {
         while (!Objects.equals(line, "")) {
             String[] tmp = line.split(":");
             switch (tmp[0]) {
