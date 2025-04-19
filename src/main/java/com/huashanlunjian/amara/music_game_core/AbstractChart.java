@@ -2,17 +2,16 @@ package com.huashanlunjian.amara.music_game_core;
 
 import com.huashanlunjian.amara.api.IChartSet;
 
-import java.util.Map;
-import java.util.Queue;
+import java.util.List;
 
-public abstract class AbstractChart implements IChartSet {
+public abstract class AbstractChart<C> implements IChartSet {
     protected String title;
     protected String artist;
     protected String charter;
     protected float bpm = 0;
     protected int maxTime;
-    protected Queue<Map<String, Object>> notes;
-    public AbstractChart(Map<String, Object> chart){
+    protected List<C> notes;
+    public AbstractChart(){
 
     }
     public float getBpm() {
@@ -38,8 +37,9 @@ public abstract class AbstractChart implements IChartSet {
 
         return 1000;
     }
-    public Queue<Map<String, Object>> getNotes() {
+    public List<C> getNotes() {
         return notes;
     }
+
 
 }

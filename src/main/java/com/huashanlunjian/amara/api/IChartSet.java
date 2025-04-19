@@ -1,5 +1,8 @@
 package com.huashanlunjian.amara.api;
 
+import java.util.List;
+import java.util.Map;
+
 public interface IChartSet {
 
     String getTitle();
@@ -13,5 +16,7 @@ public interface IChartSet {
     float getBpm();
 
     int getMaxTime();
+
+
 
 }

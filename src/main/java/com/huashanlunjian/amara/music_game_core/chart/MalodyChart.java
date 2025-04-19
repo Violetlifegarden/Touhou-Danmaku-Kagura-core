@@ -5,16 +5,17 @@ import com.huashanlunjian.amara.utils.ChartUtil;
 
 import java.util.Map;
 
-public class MalodyChart extends AbstractChart {
+public class MalodyChart extends AbstractChart<Map<String, Object>> {
+    //private Map<String, Object> chart;
 
     public MalodyChart(Map<String, Object> chart) {
-        super(chart);
+        super();
         this.title = ChartUtil.getMalodyTitle(chart);
         this.artist = ChartUtil.getMalodyArtist(chart);
         this.charter = ChartUtil.getMalodyCharter(chart);
         this.bpm = ChartUtil.getMalodySimpleBPM(chart);
         this.maxTime = ChartUtil.getMalodyMaxTime(chart);
-        this.notes = ChartUtil.getMalodyNotesPriorityQueue(ChartUtil.getNotes(chart));
+        this.notes = ChartUtil.getNotes(chart);
     }
     public String getDifficulty() {
         return "";

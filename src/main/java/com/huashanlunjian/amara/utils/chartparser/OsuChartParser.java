@@ -3,17 +3,23 @@ package com.huashanlunjian.amara.utils.chartparser;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class OsuChartParser {
+    private String filePath;
     private String title;
     private String artist;
-    private String difficulty;
-    private double bpm;
+    private String creator;
+    //private double bpm;
     private int maxTime;
-    private List<Map<String, Object>> notes;
-    public void parse(String filePath) {
+    private List<Integer> notes;
+
+    public OsuChartParser(String filePath) {
+        this.filePath = filePath;
+    }
+    public void parse() {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             String currentSection = "";
@@ -26,11 +32,11 @@ public class OsuChartParser {
 
                 switch(currentSection) {
                     case "[Metadata]":
-                        //parseMetadata(line);
+                        parseMetadata(reader);
                         break;
 
                     case "[HitObjects]":
-                        parseHitObject(line); // 核心：解析击打物件
+                        notes = parseHitObject(reader); // 核心：解析击打物件
                         break;
                 }
             }
@@ -39,15 +45,63 @@ public class OsuChartParser {
         }
     }
 
-    // 解析单个击打物件 (HitObject)
-    private int parseHitObject(String line) {
-        String[] parts = line.split(",");
-        //int x = Integer.parseInt(parts[0]);
-        //int y = Integer.parseInt(parts[1]);
-        int time = Integer.parseInt(parts[2]);
-        //int type = Integer.parseInt(parts[3]);
-        // 根据 type 进行不同物件的具体解析...
-        return time;
+    /**所以说，一定要确保等parseHitObject和parseMetadata完成后再调用其他内置变量*/
+    private List<Integer> parseHitObject(BufferedReader reader) throws IOException {
+        String line;
+        List<Integer> list = new ArrayList<>();
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            int time = Integer.parseInt(parts[2]);
+            list.add(time);
+        }
+        this.maxTime = list.getLast();
+        return list;
+    }
+    private void parseMetadata(BufferedReader reader) throws IOException {
+        String line =reader.readLine();
+        while (!Objects.equals(line, "")) {
+            String[] tmp = line.split(":");
+            switch (tmp[0]) {
+                case "Title":
+                    this.title = tmp[tmp.length-1];
+                    break;
+                case "Artist":
+                    this.artist = tmp[tmp.length-1];
+                    break;
+                case "Creator":
+                    this.creator = tmp[tmp.length-1];
+                    break;
+//                case "AudioFilename":
+//                    break;
+//                case "AudioLeadIn":
+//                    break;
+//                case "PreviewTime":
+//                    break;
+//                case "Countdown":
+//                    break;
+            }
+            line =reader.readLine();
+        }
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public int getMaxTime() {
+        return maxTime;
+    }
+
+    public List<Integer> getNotes() {
+        return notes;
     }
 }
 

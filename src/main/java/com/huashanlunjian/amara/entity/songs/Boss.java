@@ -38,7 +38,7 @@ public class Boss extends AbstractSongsEntity {
         this.audiofile = audiofile;
         this.player = player;
         this.chart = ChartUtil.loadChart(Path.of(chartPath));
-        this.chartNotes = ChartUtil.getNotes(ChartUtil.loadJson(Path.of(chartPath)));
+        this.chartNotes = chart.getNotes();
         this.songTime=(chart.getMaxTime());
         this.bpm = chart.getBpm();
         this.setCustomName(Component.literal(chart.getTitle()));

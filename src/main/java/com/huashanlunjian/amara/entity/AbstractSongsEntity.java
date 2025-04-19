@@ -16,7 +16,6 @@ public abstract class AbstractSongsEntity extends Entity implements ISongSet {
     public final long[] time = {0};
     protected ServerBossEvent songProgress = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.WHITE, BossEvent.BossBarOverlay.PROGRESS);
     protected Player player;
-    @Deprecated
     protected AbstractChart chart;
     protected int songTime;
     protected Map<String, Object> temp = null;

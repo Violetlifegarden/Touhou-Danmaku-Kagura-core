@@ -6,6 +6,6 @@ import java.util.Map;
 
 public class ArcaeaChart extends AbstractChart {
     public ArcaeaChart(Map<String, Object> chart) {
-        super(chart);
+        super();
     }
 }

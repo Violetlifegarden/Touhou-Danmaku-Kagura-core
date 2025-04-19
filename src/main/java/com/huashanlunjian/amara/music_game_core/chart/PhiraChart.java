@@ -6,6 +6,6 @@ import java.util.Map;
 
 public class PhiraChart extends AbstractChart {
     public PhiraChart(Map<String, Object> chart) {
-        super(chart);
+        super();
     }
 }
