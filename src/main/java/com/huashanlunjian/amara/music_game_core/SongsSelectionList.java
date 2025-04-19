@@ -53,6 +53,7 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
     private final Path songsdir = Path.of("./songs");
     private CompletableFuture<List<SongsSummary>> songslist;
     private List<SongsSummary> currentlyDisplayedLevels;
+    private String filter;
 
     /**这里有一个问题是是否要每次加载list时都要加载一次songs文件夹
     * 如果歌太多每次加载都会很卡，如果只加载一次那么歌曲列表就不能及时更新。
@@ -70,6 +71,7 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
 
     ) {
         super(minecraft, width, height, y, itemHeight);
+        this.filter = filter;
         this.screen = screen;
         this.songslist = loadSongs();
         this.handleNewLevels(this.pollSongsIgnoreErrors());
@@ -390,7 +392,6 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
 
         /*这个类将在之后的版本被移除。*/
         public Path chartFile() throws IOException {
-            //return this.resourcePath("malody.mc");
             return this.resourcePath(getChart());
         }
 
@@ -399,8 +400,8 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             return this.resourcePath("icon.png");
         }
 
-        public Path audioFile() {
-            return this.resourcePath("audio.ogg");
+        public Path audioFile() throws IOException {
+            return this.resourcePath(getAudio());
         }
 
         public Path resourcePath(String resource) {
@@ -421,6 +422,13 @@ public class SongsSelectionList extends ObjectSelectionList<SongsSelectionList.E
             //.amara是默认谱面文件
             if (containsFileWithExtension(this.path, ChartCategories.getChartCategoryByPath(this.path).getCategory()))return findFilesByExtension(String.valueOf(this.path), ChartCategories.getChartCategoryByPath(this.path).getCategory()).getFirst();
             else throw new FileNotFoundException("谱面格式错误");
+        }
+        private String getAudio() throws IOException {
+            //.ogg是默认音频文件
+            if (containsFileWithExtension(this.path, ".ogg"))return findFilesByExtension(String.valueOf(this.path), ".ogg").getFirst();
+            else if (containsFileWithExtension(this.path, ".mp3")) {
+                return findFilesByExtension(String.valueOf(this.path), ".mp3").getFirst();
+            } else throw new FileNotFoundException("音频格式错误");
         }
 
     }

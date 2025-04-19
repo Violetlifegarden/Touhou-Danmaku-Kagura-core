@@ -12,29 +12,29 @@ import net.minecraft.world.level.storage.LevelSummary;
 
 public class SelectSongsScreen extends Screen {
 
-    private Button deleteButton;
+    //private Button deleteButton;
     private Button selectButton;
-    private Button editButton;
+    //private Button editButton;
     protected EditBox searchBox;
     public SongsSelectionList list;
 
 
 
     public SelectSongsScreen() {
-        super(Component.literal("SongsSelection"));
+        super(Component.literal("东方弹幕神乐"));
         this.minecraft = Minecraft.getInstance();
         this.list = new SongsSelectionList(this, this.minecraft, this.width, this.height-112, 48, 36, "", this.list);
 
     }
     @Override
     protected void init() {
-        this.searchBox = new EditBox(this.font, this.width / 2 - 100, 22, 200, 20, this.searchBox, Component.translatable("selectWorld.search"));
+        this.searchBox = new EditBox(this.font, this.width / 2 - 100, 22, 200, 20, this.searchBox, Component.literal("欢迎来到东方Project的弹幕世界"));
         this.list = this.addRenderableWidget(
                 new SongsSelectionList(this, this.minecraft, this.width, this.height - 112, 48, 36, this.searchBox.getValue(), this.list)
         );
         this.addWidget(this.searchBox);
         this.selectButton = this.addRenderableWidget(
-                Button.builder(LevelSummary.PLAY_WORLD, p_232984_ -> {
+                Button.builder(Component.literal("进入幻想乡!"), p_232984_ -> {
                         if (list.getSelectedOpt().isPresent()) {
                             MiscUtils.enterMusicGame(list.getSelectedOpt().get().getSummary(), this.minecraft.player);
                         }
@@ -42,21 +42,21 @@ public class SelectSongsScreen extends Screen {
                         .bounds(this.width / 2 - 154, this.height - 52, 150, 20)
                         .build()
         );
-        this.editButton = this.addRenderableWidget(
-                Button.builder(
-                                Component.translatable("selectWorld.edit"), p_101378_ -> System.out.println("编辑模式（暂未实现）")
-                        )
-                        .bounds(this.width / 2 - 154, this.height - 28, 72, 20)
-                        .build()
-        );
-        this.deleteButton = this.addRenderableWidget(
-                Button.builder(
-                                Component.translatable("selectWorld.delete"),
-                                p_101376_ -> System.out.println("删除歌曲（暂未实现）")
-                        )
-                        .bounds(this.width / 2 - 76, this.height - 28, 72, 20)
-                        .build()
-        );
+//        this.editButton = this.addRenderableWidget(
+//                Button.builder(
+//                                Component.translatable("selectWorld.edit"), p_101378_ -> System.out.println("编辑模式（暂未实现）")
+//                        )
+//                        .bounds(this.width / 2 - 154, this.height - 28, 72, 20)
+//                        .build()
+//        );
+//        this.deleteButton = this.addRenderableWidget(
+//                Button.builder(
+//                                Component.translatable("selectWorld.delete"),
+//                                p_101376_ -> System.out.println("删除歌曲（暂未实现）")
+//                        )
+//                        .bounds(this.width / 2 - 76, this.height - 28, 72, 20)
+//                        .build()
+//        );
     }
 
     @Override
@@ -71,9 +71,9 @@ public class SelectSongsScreen extends Screen {
     }
     @Override
     public void removed() {
-        //if (this.list != null) {
-        //    this.list.children().forEach(WorldSelectionList.Entry::close);
-        //}
+        if (this.list != null) {
+            this.list.children().forEach(SongsSelectionList.Entry::close);
+        }
     }
 
 }

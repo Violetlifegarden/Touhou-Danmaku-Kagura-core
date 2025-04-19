@@ -4,6 +4,7 @@ import com.huashanlunjian.amara.entity.AbstractSongsEntity;
 import com.huashanlunjian.amara.entity.Tap;
 import com.huashanlunjian.amara.init.InitEntities;
 import com.huashanlunjian.amara.utils.ChartUtil;
+import com.huashanlunjian.amara.utils.sounds.MpegPlayer;
 import com.huashanlunjian.amara.utils.sounds.OggPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -19,6 +20,9 @@ import javax.sound.sampled.AudioSystem;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+
+import static com.huashanlunjian.amara.utils.FileUtil.containsFileWithExtension;
+import static com.huashanlunjian.amara.utils.FileUtil.containsSimpleFileWithExtension;
 
 public class Boss extends AbstractSongsEntity {
     private final AbstractSongsEntity entity;
@@ -114,8 +118,11 @@ public class Boss extends AbstractSongsEntity {
 
                 };
                 try {
-                    AudioSystem.getAudioFileTypes();
-                    OggPlayer.play(audiofile.toString());
+                    //AudioSystem.getAudioFileTypes();
+
+                    if (containsSimpleFileWithExtension(audiofile, ".ogg")) {
+                        OggPlayer.play(audiofile.toString());
+                    }else MpegPlayer.play(audiofile.toString());
                 } catch (Exception e) {
                     this.discard();
                 }
