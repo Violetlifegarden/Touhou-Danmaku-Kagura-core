@@ -15,10 +15,8 @@ public class NetworkHandler {
     public static void registerPacket(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(VERSION).optional();
 
-        registrar.playToServer(OpenGUIPayload.TYPE, OpenGUIPayload.CODEC, OpenGUIPayload::handle);
         registrar.executesOn(HandlerThread.MAIN).playToServer(ChangeDimensionPacket.TYPE, ChangeDimensionPacket.CODEC, ChangeDimensionPacket::handle);
         registrar.executesOn(HandlerThread.MAIN).playToServer(SongStartPacket.TYPE, SongStartPacket.CODEC, SongStartPacket::handle);
-        registrar.executesOn(HandlerThread.MAIN).playToServer(PlayerGetSongProgressPacket.TYPE, PlayerGetSongProgressPacket.CODEC, PlayerGetSongProgressPacket::handle);
         registrar.executesOn(HandlerThread.MAIN).playToServer(BackToOverworldPacket.TYPE, BackToOverworldPacket.CODEC, BackToOverworldPacket::handle);
 
     }

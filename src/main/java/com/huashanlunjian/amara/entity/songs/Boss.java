@@ -1,5 +1,6 @@
 package com.huashanlunjian.amara.entity.songs;
 
+import com.huashanlunjian.amara.entity.AbstractNote;
 import com.huashanlunjian.amara.entity.AbstractSongsEntity;
 import com.huashanlunjian.amara.entity.Tap;
 import com.huashanlunjian.amara.init.InitEntities;
@@ -20,6 +21,7 @@ import javax.sound.sampled.AudioSystem;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.LinkedTransferQueue;
 
 import static com.huashanlunjian.amara.utils.FileUtil.containsFileWithExtension;
 import static com.huashanlunjian.amara.utils.FileUtil.containsSimpleFileWithExtension;
@@ -30,6 +32,7 @@ public class Boss extends AbstractSongsEntity {
     private Random random = new Random();
     private List chartNotes;
     private int index = 0;
+    private final Queue<AbstractNote> queue = new LinkedTransferQueue<>();
 
 
     public Boss(EntityType<? extends AbstractSongsEntity> type, Level world) {
@@ -48,8 +51,17 @@ public class Boss extends AbstractSongsEntity {
         this.setCustomName(Component.literal(chart.getTitle()));
         this.setPos(new Vec3(player.getX(),player.getY()+10,player.getZ()));
         this.entity = this;
+        for (int i = 0; i < chartNotes.size(); i++){
+            queue.add(new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(2*random.nextFloat()-1,-random.nextFloat()-0.25,2*random.nextFloat()-1), this));
+        }
 
     }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
+    }
+
     public void tick(){
         super.tick();
 
@@ -58,8 +70,8 @@ public class Boss extends AbstractSongsEntity {
             while (true){
                 try {
                     if (chart.getNoteTime(index,bpm)<System.currentTimeMillis()-time[0]){
-                        Tap tap = new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(2*random.nextFloat()-1,-random.nextFloat(),2*random.nextFloat()-1), this);
-                        this.level().addFreshEntity(tap);
+                        //Tap tap = new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(2*random.nextFloat()-1,-random.nextFloat()-0.25,2*random.nextFloat()-1), this);
+                        this.level().addFreshEntity(Objects.requireNonNull(queue.poll()));
                         if (index<chartNotes.size()-1){
                             index++;
                         }
@@ -96,7 +108,8 @@ public class Boss extends AbstractSongsEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         if (!this.level().isClientSide()) {
             CompletableFuture.supplyAsync(() -> {
                 System.gc();
@@ -108,18 +121,12 @@ public class Boss extends AbstractSongsEntity {
                     public void run() {
                         if (entity!=null) {
                             songProgress.setProgress((float) (System.currentTimeMillis()-time[0]) /entity.getMaxTime());
-//                            if (System.currentTimeMillis()-time[0] > entity.getMaxTime()) {
-//                                entity.discard();
-//                                cancel();
-//                            }
                         }
 
                     }
 
                 };
                 try {
-                    //AudioSystem.getAudioFileTypes();
-
                     if (containsSimpleFileWithExtension(audiofile, ".ogg")) {
                         OggPlayer.play(audiofile.toString());
                     }else MpegPlayer.play(audiofile.toString());

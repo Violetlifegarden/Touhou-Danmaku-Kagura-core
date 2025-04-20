@@ -34,8 +34,8 @@ public record SongStartPacket(String path,String chartPath)implements CustomPack
             context.enqueueWork(() -> {
                 CompletableFuture.supplyAsync(() -> {
                     try {
-                        TimeUnit.MILLISECONDS.sleep(3000);
                         Boss boss = new Boss(context.player(),msg.chartPath(), audioFile(msg.path));
+                        TimeUnit.MILLISECONDS.sleep(3000);
                         boss.level().addFreshEntity(boss);
                     } catch (InterruptedException ignored) {
                     }
