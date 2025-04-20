@@ -121,16 +121,6 @@ public class ChartUtil {
     public static List<Map<String, Object>> getNotes(Map<String, Object> json){
         return (List<Map<String, Object>>) json.get("note");
     }
-    /**这个是Malody专用的,但在解析时需要指明谱面类型。*/
-//    public static PriorityQueue<Map<String, Object>> getMalodyNotesPriorityQueue(List<Map<String, Object>> notes){
-//        PriorityQueue<Map<String, Object>> notesPriorityQueue = new PriorityQueue<>((o1, o2) -> {
-//            int o1Time = ((List<Integer>) o1.get("beat")).getFirst();
-//            int o2Time = ((List<Integer>) o1.get("beat")).getFirst();
-//            return o1Time - o2Time;
-//        });
-//        notesPriorityQueue.addAll(notes);
-//        return notesPriorityQueue;
-//    }
     public static Queue<Map<String, Object>> getMalodyNotesPriorityQueue(List<Map<String, Object>> notes){
 
         return new ConcurrentLinkedQueue<>(notes);

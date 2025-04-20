@@ -21,6 +21,7 @@ import javax.sound.sampled.AudioSystem;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedTransferQueue;
 
 import static com.huashanlunjian.amara.utils.FileUtil.containsFileWithExtension;
@@ -32,14 +33,13 @@ public class Boss extends AbstractSongsEntity {
     private Random random = new Random();
     private List chartNotes;
     private int index = 0;
-    private final Queue<AbstractNote> queue = new LinkedTransferQueue<>();
+    private final Queue<AbstractNote> queue = new ConcurrentLinkedQueue<>();
 
 
     public Boss(EntityType<? extends AbstractSongsEntity> type, Level world) {
         super(type, world);
         this.entity = this;
     }
-    /**SongsSummary决定要移除了,想点其他办法获取音频路径吧*/
     public Boss(Player player, String chartPath, Path audiofile) {
         super(InitEntities.DEMOSONG.get(), player.level());
         this.audiofile = audiofile;

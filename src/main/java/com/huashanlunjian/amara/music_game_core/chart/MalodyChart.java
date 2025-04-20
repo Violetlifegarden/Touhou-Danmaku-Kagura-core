@@ -5,9 +5,10 @@ import com.huashanlunjian.amara.utils.ChartUtil;
 
 import java.util.List;
 import java.util.Map;
-
+/**Malody谱面解析我不再维护。目前暂时不考虑移除。*/
+@Deprecated
 public class MalodyChart extends AbstractChart<Map<String, Object>> {
-    //private Map<String, Object> chart;
+
 
     public MalodyChart(Map<String, Object> chart) {
         super();

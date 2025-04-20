@@ -23,8 +23,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-//@EventBusSubscriber(modid = Amara.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-
 public class InitEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Amara.MOD_ID);
     public static final DeferredRegister<Item> SPAWN_EGGS = DeferredRegister.create(Registries.ITEM, Amara.MOD_ID);

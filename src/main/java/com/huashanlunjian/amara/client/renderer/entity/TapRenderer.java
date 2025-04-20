@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class TapRenderer extends EntityRenderer<Tap> {
-    private static final float MIN_CAMERA_DISTANCE_SQUARED = 12.25F;
     private final ItemRenderer itemRenderer;
     private final float scale;
     private final boolean fullBright;

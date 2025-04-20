@@ -3,7 +3,6 @@ package com.huashanlunjian.amara.utils;
 import com.google.common.hash.Hashing;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.Util;
-import net.minecraft.client.gui.screens.FaviconTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;

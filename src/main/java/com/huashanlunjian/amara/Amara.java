@@ -30,7 +30,6 @@ public class Amara {
     public static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MOD_ID);
     private static final String MODEL_DIR = "textures/entity/";
     private static final String GUI_DIR = "textures/gui/";
-    private static final String ENVIRO_DIR = "textures/environment/";
 
     public Amara(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
@@ -73,10 +72,6 @@ public class Amara {
 
     public static ResourceLocation getGuiTexture(String name) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, GUI_DIR + name);
-    }
-
-    public static ResourceLocation getEnvTexture(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, ENVIRO_DIR + name);
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

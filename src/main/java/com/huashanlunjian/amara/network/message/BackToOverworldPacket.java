@@ -26,7 +26,6 @@ public record BackToOverworldPacket(Boolean back) implements CustomPacketPayload
                 if (level != null){
                     player.changeDimension(player.portalProcess.getPortalDestination(level, player));
                 }
-                //Minecraft.getInstance().setScreen(new SelectSongsScreen());
             });
         }
     }

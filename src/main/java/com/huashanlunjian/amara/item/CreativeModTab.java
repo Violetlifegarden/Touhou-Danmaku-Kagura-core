@@ -14,9 +14,9 @@ public class CreativeModTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Amara.MOD_ID);
 
-    public static final Supplier<CreativeModeTab> AMARA_ITEMS_TAB = CREATIVE_MODE_TAB.register("bismuth_items_tab",
+    public static final Supplier<CreativeModeTab> AMARA_ITEMS_TAB = CREATIVE_MODE_TAB.register("touhou_danmaku_kagura_core",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PachuliNotebook.get()))
-                    .title(Component.translatable("creativetab.tutorialmod.bismuth_items"))
+                    .title(Component.literal("东方弹幕神乐核心"))
                     .displayItems((itemDisplayParameters, output) -> {
                     output.accept(ModItems.PachuliNotebook.get());
                     }).build());
