@@ -3,6 +3,7 @@ package com.huashanlunjian.amara.entity;
 import com.huashanlunjian.amara.api.INoteSet;
 import com.huashanlunjian.amara.entity.songs.Boss;
 import com.huashanlunjian.amara.init.InitEntities;
+import com.huashanlunjian.amara.music_game_extension.events.NoteMoveEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -16,14 +17,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 public class Tap extends AbstractNote {
+    private Vec3 originMovement;
+    private final Queue<NoteMoveEvents> queue = new ConcurrentLinkedQueue<>();
+
 
     public Tap(EntityType<? extends Tap> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
+    /**一共有2个方法*/
     public Tap(Level level, double x, double y, double z, Vec3 movement, Boss boss) {
         super(InitEntities.TAP.get(),level,x, y, z, movement,boss);
+        this.originMovement = movement;
     }
     public void tick(){
         super.tick();
@@ -46,6 +55,11 @@ public class Tap extends AbstractNote {
     }
 
 
+    public Vec3 getOriginMovement() {
+        return originMovement;
+    }
+    @Override
+    public void onAddedToLevel() {
 
-
+    }
 }

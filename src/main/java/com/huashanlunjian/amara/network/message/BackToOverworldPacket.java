@@ -1,15 +1,16 @@
 package com.huashanlunjian.amara.network.message;
 
+import com.huashanlunjian.amara.screen.gui.ResultScreen;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import static com.huashanlunjian.amara.utils.FileUtil.getResourceLocation;
-import static net.minecraft.world.level.Level.OVERWORLD;
 
 public record BackToOverworldPacket(Boolean back) implements CustomPacketPayload{
     public static final CustomPacketPayload.Type<BackToOverworldPacket> TYPE = new CustomPacketPayload.Type<>(getResourceLocation("back_overworld"));
@@ -19,13 +20,11 @@ public record BackToOverworldPacket(Boolean back) implements CustomPacketPayload
             BackToOverworldPacket::new
     );
     public static void handle(BackToOverworldPacket msg, IPayloadContext context) {
-        if (context.flow().isServerbound()){
+        if (context.flow().isClientbound()){
             context.enqueueWork(() -> {
-                ServerPlayer player = (ServerPlayer)context.player();
-                ServerLevel level = player.server.getLevel(OVERWORLD);
-                if (level != null){
-                    player.changeDimension(player.portalProcess.getPortalDestination(level, player));
-                }
+                LocalPlayer player = (LocalPlayer) context.player();
+                Minecraft.getInstance().setScreen(new ResultScreen( () -> player.connection.send(new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.PERFORM_RESPAWN))));
+
             });
         }
     }

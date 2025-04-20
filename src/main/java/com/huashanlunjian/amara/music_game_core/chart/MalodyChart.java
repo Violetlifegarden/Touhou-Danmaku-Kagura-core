@@ -40,6 +40,32 @@ public class MalodyChart extends AbstractChart<Map<String, Object>> {
     public int getMaxTime() {
         return this.maxTime/10000;
     }
+
+    @Override
+    public List<Map<String, Object>> getNoteMoveEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBossMoveEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBossRenderEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getNoteRenderEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getClientRenderEvents() {
+        return null;
+    }
+
     public List<Map<String, Object>> getNotes() {
         return this.notes;
     }

@@ -17,14 +17,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import javax.sound.sampled.AudioSystem;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedTransferQueue;
 
-import static com.huashanlunjian.amara.utils.FileUtil.containsFileWithExtension;
 import static com.huashanlunjian.amara.utils.FileUtil.containsSimpleFileWithExtension;
 
 public class Boss extends AbstractSongsEntity {
@@ -33,7 +30,12 @@ public class Boss extends AbstractSongsEntity {
     private Random random = new Random();
     private List chartNotes;
     private int index = 0;
+    /**如果把它单独放到每一个AbstractChart里面加载就很容易写了,
+     * 但获取时可能会有问题，
+     * 是否有必要重写queue？
+     * 事实上使用通用的构建方式也并不是很难写*/
     private final Queue<AbstractNote> queue = new ConcurrentLinkedQueue<>();
+    private Vec3 originSpeed = new Vec3(0,0,0);
 
 
     public Boss(EntityType<? extends AbstractSongsEntity> type, Level world) {
@@ -52,8 +54,9 @@ public class Boss extends AbstractSongsEntity {
         this.setPos(new Vec3(player.getX(),player.getY()+10,player.getZ()));
         this.entity = this;
         for (int i = 0; i < chartNotes.size(); i++){
-            queue.add(new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(2*random.nextFloat()-1,-random.nextFloat()-0.25,2*random.nextFloat()-1), this));
+            queue.add(new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(random.nextFloat()/4,-random.nextFloat()/4,random.nextFloat()/4), this));
         }
+        //this.originspeed = chart.getOriginSpeed();
 
     }
 
@@ -66,12 +69,15 @@ public class Boss extends AbstractSongsEntity {
         super.tick();
 
         if (!this.level().isClientSide()) {
+            //this.setDeltaMovement(this.originSpeed.add(player.getDeltaMovement()));
+            this.setPos(player.getX()-9, player.getY()+7, player.getZ()-9);
 
             while (true){
                 try {
                     if (chart.getNoteTime(index,bpm)<System.currentTimeMillis()-time[0]){
-                        //Tap tap = new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(2*random.nextFloat()-1,-random.nextFloat()-0.25,2*random.nextFloat()-1), this);
-                        this.level().addFreshEntity(Objects.requireNonNull(queue.poll()));
+                        AbstractNote note = Objects.requireNonNull(queue.poll());
+                        note.setPos(this.getX(), this.getY(), this.getZ());
+                        this.level().addFreshEntity(note);
                         if (index<chartNotes.size()-1){
                             index++;
                         }

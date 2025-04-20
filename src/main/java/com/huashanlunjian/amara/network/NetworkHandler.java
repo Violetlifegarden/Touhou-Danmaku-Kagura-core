@@ -12,7 +12,7 @@ public class NetworkHandler {
 
         registrar.executesOn(HandlerThread.MAIN).playToServer(ChangeDimensionPacket.TYPE, ChangeDimensionPacket.CODEC, ChangeDimensionPacket::handle);
         registrar.executesOn(HandlerThread.MAIN).playToServer(SongStartPacket.TYPE, SongStartPacket.CODEC, SongStartPacket::handle);
-        registrar.executesOn(HandlerThread.MAIN).playToServer(BackToOverworldPacket.TYPE, BackToOverworldPacket.CODEC, BackToOverworldPacket::handle);
+        registrar.executesOn(HandlerThread.MAIN).playToClient(BackToOverworldPacket.TYPE, BackToOverworldPacket.CODEC, BackToOverworldPacket::handle);
 
     }
 

@@ -4,6 +4,7 @@ import com.huashanlunjian.amara.music_game_core.AbstractChart;
 import com.huashanlunjian.amara.utils.chartparser.OsuChartParser;
 
 import java.util.List;
+import java.util.Map;
 
 public class OsuChart extends AbstractChart<Integer> {
     public OsuChart(OsuChartParser parser) {
@@ -34,6 +35,31 @@ public class OsuChart extends AbstractChart<Integer> {
     @Override
     public int getMaxTime() {
         return this.maxTime;
+    }
+
+    @Override
+    public List<Map<String, Object>> getNoteMoveEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBossMoveEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBossRenderEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getNoteRenderEvents() {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getClientRenderEvents() {
+        return null;
     }
 
     public List<Integer> getNotes() {
