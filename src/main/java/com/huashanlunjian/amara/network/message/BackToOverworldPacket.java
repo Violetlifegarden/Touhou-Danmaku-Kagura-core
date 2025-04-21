@@ -12,19 +12,20 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import static com.huashanlunjian.amara.utils.FileUtil.getResourceLocation;
 
-public record BackToOverworldPacket(Boolean back) implements CustomPacketPayload{
+public record BackToOverworldPacket(int hit, int noteAmount) implements CustomPacketPayload{
     public static final CustomPacketPayload.Type<BackToOverworldPacket> TYPE = new CustomPacketPayload.Type<>(getResourceLocation("back_overworld"));
     public static final StreamCodec<ByteBuf,BackToOverworldPacket> CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL,
-            BackToOverworldPacket::back,
+            ByteBufCodecs.INT,
+            BackToOverworldPacket::hit,
+            ByteBufCodecs.INT,
+            BackToOverworldPacket::noteAmount,
             BackToOverworldPacket::new
     );
     public static void handle(BackToOverworldPacket msg, IPayloadContext context) {
         if (context.flow().isClientbound()){
             context.enqueueWork(() -> {
                 LocalPlayer player = (LocalPlayer) context.player();
-                Minecraft.getInstance().setScreen(new ResultScreen( () -> player.connection.send(new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.PERFORM_RESPAWN))));
-
+                Minecraft.getInstance().setScreen(new ResultScreen( () -> player.connection.send(new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.PERFORM_RESPAWN)),msg.hit,msg.noteAmount));
             });
         }
     }

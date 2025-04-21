@@ -4,6 +4,7 @@ import com.huashanlunjian.amara.entity.AbstractNote;
 import com.huashanlunjian.amara.entity.AbstractSongsEntity;
 import com.huashanlunjian.amara.entity.Tap;
 import com.huashanlunjian.amara.init.InitEntities;
+import com.huashanlunjian.amara.network.message.BackToOverworldPacket;
 import com.huashanlunjian.amara.utils.ChartUtil;
 import com.huashanlunjian.amara.utils.sounds.MpegPlayer;
 import com.huashanlunjian.amara.utils.sounds.OggPlayer;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -36,6 +38,8 @@ public class Boss extends AbstractSongsEntity {
      * 事实上使用通用的构建方式也并不是很难写*/
     private final Queue<AbstractNote> queue = new ConcurrentLinkedQueue<>();
     private Vec3 originSpeed = new Vec3(0,0,0);
+    private int noteAmount;
+    private int hit = 0;
 
 
     public Boss(EntityType<? extends AbstractSongsEntity> type, Level world) {
@@ -53,6 +57,7 @@ public class Boss extends AbstractSongsEntity {
         this.setCustomName(Component.literal(chart.getTitle()));
         this.setPos(new Vec3(player.getX(),player.getY()+10,player.getZ()));
         this.entity = this;
+        this.noteAmount = chartNotes.size();
         for (int i = 0; i < chartNotes.size(); i++){
             queue.add(new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(random.nextFloat()/4,-random.nextFloat()/4,random.nextFloat()/4), this));
         }
@@ -78,12 +83,12 @@ public class Boss extends AbstractSongsEntity {
                         AbstractNote note = Objects.requireNonNull(queue.poll());
                         note.setPos(this.getX(), this.getY(), this.getZ());
                         this.level().addFreshEntity(note);
-                        if (index<chartNotes.size()-1){
+                        if (index<noteAmount-1){
                             index++;
                         }
                         else {
                             this.discard();
-                            //PacketDistributor.sendToServer(new BackToOverworldPacket(true));
+                            PacketDistributor.sendToPlayer((ServerPlayer) player,new BackToOverworldPacket(this.getHit(), this.getNoteAmount()));
                             break;
                         }
                     }else break;
@@ -119,8 +124,6 @@ public class Boss extends AbstractSongsEntity {
         if (!this.level().isClientSide()) {
             CompletableFuture.supplyAsync(() -> {
                 System.gc();
-
-
                 Timer timer = new Timer();
                 TimerTask task = new TimerTask() {
                     @Override
@@ -160,5 +163,14 @@ public class Boss extends AbstractSongsEntity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
 
+    }
+    public synchronized void onHit(){
+        this.hit++;
+    }
+    public int getHit(){
+        return this.hit;
+    }
+    public int getNoteAmount(){
+        return this.noteAmount;
     }
 }

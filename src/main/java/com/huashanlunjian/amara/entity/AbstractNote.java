@@ -12,8 +12,6 @@ import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Comparator;
-
 public class AbstractNote extends AbstractHurtingProjectile implements INoteSet {
 
     public AbstractNote(EntityType<? extends AbstractNote> entityType, Level level) {

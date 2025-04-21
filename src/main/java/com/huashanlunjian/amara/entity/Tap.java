@@ -50,6 +50,7 @@ public class Tap extends AbstractNote {
         Entity entity = result.getEntity();
         if (entity instanceof Player) {
             entity.hurt(this.damageSources().thrown(this, this), 2.0F);
+            ((Boss)this.getOwner()).onHit();
             this.discard();
         }
     }
