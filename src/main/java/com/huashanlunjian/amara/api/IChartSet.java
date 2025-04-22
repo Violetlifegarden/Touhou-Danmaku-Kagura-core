@@ -17,15 +17,11 @@ public interface IChartSet {
 
     int getMaxTime();
 
-    List<Map<String, Object>> getNoteMoveEvents();
+    List<Map<String, Object>> getNoteEvents(int index);
 
-    List<Map<String, Object>> getBossMoveEvents();
+    List<Map<String, Object>> getBossEvents();
 
-    List<Map<String, Object>> getBossRenderEvents();
-
-    List<Map<String, Object>> getNoteRenderEvents();
-
-    List<Map<String, Object>> getClientRenderEvents();
+    List<Map<String, Object>> getClientEvents();
 
 
 

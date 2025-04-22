@@ -3,6 +3,7 @@ package com.huashanlunjian.amara.utils;
 import com.fasterxml.jackson.jr.ob.JSON;
 import com.huashanlunjian.amara.music_game_core.AbstractChart;
 import com.huashanlunjian.amara.music_game_core.chart.*;
+import com.huashanlunjian.amara.utils.chartparser.AmaraChartparser;
 import com.huashanlunjian.amara.utils.chartparser.OsuChartParser;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ChartUtil {
             case ".aff" -> new ArcaeaChart(loadJson(path));
             case ".osu" -> new OsuChart(new OsuChartParser(path.toString()));
             case ".json" -> new PhiraChart(loadJson(path));
-            case "amara" -> new DefaultChart(loadJson(path));
+            case "amara" -> new AmaraChart(new AmaraChartparser(path));
             default -> throw new RuntimeException("谱面格式错误");
         };
     }

@@ -1,5 +1,4 @@
 {
-  "itemGroup.amara": "Example Mod Tab",
-  "block.amara.example_block": "Example Block",
-  "item.amara.example_item": "Example Item"
+  "itemgroup.amara": "Touhou Danmaku Kagura",
+  "item.amara.pachulinotebook": "Pachuli Notebook"
 }

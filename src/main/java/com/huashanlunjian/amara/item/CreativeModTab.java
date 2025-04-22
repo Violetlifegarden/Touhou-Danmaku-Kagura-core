@@ -16,7 +16,7 @@ public class CreativeModTab {
 
     public static final Supplier<CreativeModeTab> AMARA_ITEMS_TAB = CREATIVE_MODE_TAB.register("touhou_danmaku_kagura_core",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PachuliNotebook.get()))
-                    .title(Component.literal("东方弹幕神乐核心"))
+                    .title(Component.translatable("itemgroup.amara"))
                     .displayItems((itemDisplayParameters, output) -> {
                     output.accept(ModItems.PachuliNotebook.get());
                     }).build());

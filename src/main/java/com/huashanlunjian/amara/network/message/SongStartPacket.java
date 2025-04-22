@@ -1,17 +1,13 @@
 package com.huashanlunjian.amara.network.message;
 
 import com.huashanlunjian.amara.entity.songs.Boss;
-import com.huashanlunjian.amara.music_game_core.AbstractChart;
-import com.huashanlunjian.amara.utils.ChartUtil;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +34,9 @@ public record SongStartPacket(String path,String chartPath)implements CustomPack
                         TimeUnit.MILLISECONDS.sleep(3000);
                         boss.level().addFreshEntity(boss);
                     } catch (InterruptedException ignored) {
+                    } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                             IllegalAccessException e) {
+                        throw new RuntimeException(e);
                     }
 
                     //boss.setCustomName(boss.getDisplayName());
@@ -53,7 +52,7 @@ public record SongStartPacket(String path,String chartPath)implements CustomPack
 
     @Deprecated
     public static Path audioFile(String resource) {
-        return Path.of(resource);//.resolve("audio.ogg");
+        return Path.of(resource);
     }
 
     @Deprecated

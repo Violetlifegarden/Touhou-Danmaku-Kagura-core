@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class OsuChartParser {
-    private String filePath;
+    private final String filePath;
     private String title;
     private String artist;
     private String creator;

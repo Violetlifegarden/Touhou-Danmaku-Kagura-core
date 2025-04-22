@@ -17,12 +17,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Tap extends AbstractNote {
     private Vec3 originMovement;
-    private final Queue<NoteMoveEvents> queue = new ConcurrentLinkedQueue<>();
 
 
     public Tap(EntityType<? extends Tap> pEntityType, Level pLevel) {
@@ -30,8 +32,8 @@ public class Tap extends AbstractNote {
     }
 
     /**一共有2个方法*/
-    public Tap(Level level, double x, double y, double z, Vec3 movement, Boss boss) {
-        super(InitEntities.TAP.get(),level,x, y, z, movement,boss);
+    public Tap(Level level, double x, double y, double z, Vec3 movement, Boss boss, List<Map<String, Object>> events) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        super(InitEntities.TAP.get(),level,x, y, z, movement,boss, events);
         this.originMovement = movement;
     }
     public void tick(){

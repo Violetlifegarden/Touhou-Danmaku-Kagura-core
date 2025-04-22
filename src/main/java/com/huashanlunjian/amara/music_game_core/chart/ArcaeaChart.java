@@ -16,27 +16,17 @@ public class ArcaeaChart extends AbstractChart {
     }
 
     @Override
-    public List<Map<String, Object>> getNoteMoveEvents() {
+    public List<Map<String, Object>> getNoteEvents(int index) {
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> getBossMoveEvents() {
+    public List<Map<String, Object>> getBossEvents() {
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> getBossRenderEvents() {
-        return null;
-    }
-
-    @Override
-    public List<Map<String, Object>> getNoteRenderEvents() {
-        return null;
-    }
-
-    @Override
-    public List<Map<String, Object>> getClientRenderEvents() {
+    public List<Map<String, Object>> getClientEvents() {
         return null;
     }
 }
