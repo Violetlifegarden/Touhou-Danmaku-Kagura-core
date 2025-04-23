@@ -34,15 +34,10 @@ public class InitEntities {
     public static final DeferredRegister<Activity> ACTIVITIES = DeferredRegister.create(Registries.ACTIVITY, Amara.MOD_ID);
 //////////////////////////////////////////////////////////////////////////////////////////////
     public static final DeferredHolder<EntityType<?>, EntityType<EasternProjectBlock>> EASTERNPROJECTBLOCK = buildNoEgg(EntityNames.EASTERNPROJECTBLOCK, makeCastedBuilder(EasternProjectBlock.class, EasternProjectBlock::new, 0.98F, 0.98F, 80, 1),false);
+
     public static final DeferredHolder<EntityType<?>, EntityType<Tap>> TAP = buildNoEgg(EntityNames.TAP, makeCastedBuilder(Tap.class, Tap::new, 0.5F, 0.5F, 150, 1), false);
 
-
-    public static final DeferredHolder<EntityType<?>, EntityType<Boss>> DEMOSONG = buildNoEgg(EntityNames.SONG, makeCastedBuilder(Boss.class, Boss::new, 0.5F, 0.5F, 150, 1), false);
-
-
-
-
-
+    public static final DeferredHolder<EntityType<?>, EntityType<Boss>> DEMOSONG = buildNoEgg(EntityNames.SONG, makeBuilder(Boss::new,MobCategory.MONSTER, 0.5F, 0.5F, 150, 1,0.0F), false);
 
 ////////////////////////////////////////////////////////////////////////////////////
     //Same as below, but with riding offset set to 0.0F;

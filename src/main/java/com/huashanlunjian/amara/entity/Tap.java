@@ -1,18 +1,15 @@
 package com.huashanlunjian.amara.entity;
 
-import com.huashanlunjian.amara.api.INoteSet;
 import com.huashanlunjian.amara.entity.songs.Boss;
 import com.huashanlunjian.amara.init.InitEntities;
-import com.huashanlunjian.amara.music_game_extension.events.NoteMoveEvents;
-import net.minecraft.nbt.CompoundTag;
+import com.huashanlunjian.amara.music_game_extension.DanmakuColor;
+import com.huashanlunjian.amara.music_game_extension.DanmakuType;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -20,10 +17,12 @@ import net.minecraft.world.phys.Vec3;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Tap extends AbstractNote {
+
+    private static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(Tap.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(Tap.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Tap.class, EntityDataSerializers.FLOAT);
     private Vec3 originMovement;
 
 
@@ -63,6 +62,37 @@ public class Tap extends AbstractNote {
     }
     @Override
     public void onAddedToLevel() {
-
     }
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(DANMAKU_TYPE, DanmakuType.random.nextInt(DanmakuType.getLength()));
+        builder.define(COLOR, DanmakuColor.random.nextInt(DanmakuColor.getLength()));
+        builder.define(DAMAGE, 1.0f);
+    }
+    public DanmakuType getDanmakuType() {
+        return DanmakuType.getType(this.entityData.get(DANMAKU_TYPE));
+    }
+
+    public Tap setDanmakuType(DanmakuType type) {
+        this.entityData.set(DANMAKU_TYPE, type.ordinal());
+        return this;
+    }
+
+    public DanmakuColor getColor() {
+        return DanmakuColor.getColor(this.entityData.get(COLOR));
+    }
+
+    public Tap setColor(DanmakuColor color) {
+        this.entityData.set(COLOR, color.ordinal());
+        return this;
+    }
+
+    public float getDamage() {
+        return this.entityData.get(DAMAGE);
+    }
+
+    public Tap setDamage(float damage) {
+        this.entityData.set(DAMAGE, damage);
+        return this;
+    }
+
 }

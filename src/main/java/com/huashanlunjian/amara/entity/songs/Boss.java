@@ -6,6 +6,7 @@ import com.huashanlunjian.amara.entity.Tap;
 import com.huashanlunjian.amara.init.InitEntities;
 import com.huashanlunjian.amara.music_game_extension.BossMoveFunctions;
 import com.huashanlunjian.amara.music_game_extension.BossRenderFunctions;
+import com.huashanlunjian.amara.music_game_extension.BossType;
 import com.huashanlunjian.amara.music_game_extension.events.BossMoveEvents;
 import com.huashanlunjian.amara.music_game_extension.events.BossRenderEvents;
 import com.huashanlunjian.amara.music_game_extension.events.ClientRenderEvents;
@@ -15,13 +16,26 @@ import com.huashanlunjian.amara.utils.sounds.MpegPlayer;
 import com.huashanlunjian.amara.utils.sounds.OggPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +46,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.huashanlunjian.amara.utils.FileUtil.containsSimpleFileWithExtension;
 
-public class Boss extends AbstractSongsEntity {
+public class Boss extends AbstractSongsEntity implements FlyingAnimal {
     private final AbstractSongsEntity entity;
     private Path audiofile ;
     private Random random = new Random();
@@ -57,12 +71,17 @@ public class Boss extends AbstractSongsEntity {
     private boolean moveEmpty = false;
     private boolean bossrenderEmpty = false;
     private boolean clientrenderEmpty = false;
+    /////////////////////////////////////////////////////
+    private static final EntityDataAccessor<Integer> FAIRY_TYPE = SynchedEntityData.defineId(Boss.class, EntityDataSerializers.INT);
+
 
 
 
     public Boss(EntityType<? extends AbstractSongsEntity> type, Level world) {
         super(type, world);
         this.entity = this;
+        this.moveControl = new FlyingMoveControl(this, 15, true);
+
     }
     public Boss(Player player, String chartPath, Path audiofile) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         super(InitEntities.DEMOSONG.get(), player.level());
@@ -93,7 +112,31 @@ public class Boss extends AbstractSongsEntity {
 
     }
     @Override
+    protected void registerGoals() {
+        goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(1, new MoveTowardsRestrictionGoal(this, 1.0));
+        goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8.0F));
+    }
+    public static AttributeSupplier.Builder createFairyAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.FOLLOW_RANGE, 90.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 1.5)
+                .add(Attributes.ARMOR, 1.)
+                .add(Attributes.FLYING_SPEED, 0.4);
+    }
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FAIRY_TYPE, new Random().nextInt(BossType.values().length));
+    }
+    @Override
+    protected @NotNull PathNavigation createNavigation(Level worldIn) {
+        FlyingPathNavigation navigator = new FlyingPathNavigation(this, worldIn);
+        navigator.setCanOpenDoors(false);
+        navigator.setCanFloat(true);
+        navigator.setCanPassDoors(false);
+        return navigator;
     }
     public long getTime(){
         return (System.currentTimeMillis()-time[0]);
@@ -103,6 +146,7 @@ public class Boss extends AbstractSongsEntity {
         super.tick();
 
         if (!this.level().isClientSide()) {
+            this.lookAt(player, 360, 360);
             //这里目标是boss的坐标和玩家在相对位移情况下保持同步
             if (this.originSpeed.length()==0) this.setPos(player.getX()+originPosition.x, player.getY()+originPosition.y, player.getZ()+originPosition.z);
             else this.moveTo(originSpeed.x()+player.getDeltaMovement().x(), originSpeed.y()+player.getDeltaMovement().y(), originSpeed.z()+player.getDeltaMovement().z());
@@ -209,13 +253,16 @@ public class Boss extends AbstractSongsEntity {
      * @param compound
      */
     @Override
-    protected void readAdditionalSaveData(CompoundTag compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
 
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
 
+    }
+    public int getFairyTypeOrdinal() {
+        return this.entityData.get(FAIRY_TYPE);
     }
     public synchronized void onHit(){
         this.hit++;
@@ -249,5 +296,10 @@ public class Boss extends AbstractSongsEntity {
 
     public Vec3 getOriginSpeed() {
         return originSpeed;
+    }
+
+    @Override
+    public boolean isFlying() {
+        return true;
     }
 }

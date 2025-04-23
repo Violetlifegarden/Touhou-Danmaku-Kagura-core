@@ -1,8 +1,11 @@
 package com.huashanlunjian.amara;
 
+import com.huashanlunjian.amara.client.model.EntityFairyModel;
+import com.huashanlunjian.amara.client.model.NewEntityFairyModel;
 import com.huashanlunjian.amara.client.renderer.entity.EasternProjectBlockRenderer;
 import com.huashanlunjian.amara.client.renderer.entity.SongsEntityRenderer;
 import com.huashanlunjian.amara.client.renderer.entity.TapRenderer;
+import com.huashanlunjian.amara.entity.Tap;
 import com.huashanlunjian.amara.entity.songs.Boss;
 import com.huashanlunjian.amara.init.InitEntities;
 import com.huashanlunjian.amara.item.CreativeModTab;
@@ -19,6 +22,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 
@@ -80,8 +84,18 @@ public class Amara {
         public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event){
             event.registerEntityRenderer(InitEntities.EASTERNPROJECTBLOCK.get(), EasternProjectBlockRenderer::new);
             event.registerEntityRenderer(InitEntities.TAP.get(), TapRenderer::new);
-            event.registerEntityRenderer(InitEntities.DEMOSONG.get(), SongsEntityRenderer<Boss>::new);
+            event.registerEntityRenderer(InitEntities.DEMOSONG.get(), SongsEntityRenderer::new);
 
+        }
+        @SubscribeEvent
+        public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            event.registerLayerDefinition(EntityFairyModel.LAYER, EntityFairyModel::createBodyLayer);
+            event.registerLayerDefinition(NewEntityFairyModel.LAYER, NewEntityFairyModel::createBodyLayer);
+        }
+
+        @SubscribeEvent
+        public static void addEntityAttributeEvent(EntityAttributeCreationEvent event) {
+            event.put(InitEntities.DEMOSONG.get(), Boss.createMobAttributes().build());
         }
     }
 }
