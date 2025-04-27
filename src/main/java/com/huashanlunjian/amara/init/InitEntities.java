@@ -37,7 +37,7 @@ public class InitEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<Tap>> TAP = buildNoEgg(EntityNames.TAP, makeCastedBuilder(Tap.class, Tap::new, 0.5F, 0.5F, 150, 1), false);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<Boss>> DEMOSONG = buildNoEgg(EntityNames.SONG, makeBuilder(Boss::new,MobCategory.MONSTER, 0.5F, 0.5F, 150, 1,0.0F), false);
+    public static final DeferredHolder<EntityType<?>, EntityType<Boss>> DEMOSONG = buildNoEgg(EntityNames.SONG, makeBuilder(Boss::new,MobCategory.CREATURE, 0.5F, 0.5F, 150, 1,0.0F), false);
 
 ////////////////////////////////////////////////////////////////////////////////////
     //Same as below, but with riding offset set to 0.0F;

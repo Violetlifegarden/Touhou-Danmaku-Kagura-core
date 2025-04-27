@@ -5,7 +5,6 @@ import com.huashanlunjian.amara.client.model.NewEntityFairyModel;
 import com.huashanlunjian.amara.client.renderer.entity.EasternProjectBlockRenderer;
 import com.huashanlunjian.amara.client.renderer.entity.SongsEntityRenderer;
 import com.huashanlunjian.amara.client.renderer.entity.TapRenderer;
-import com.huashanlunjian.amara.entity.Tap;
 import com.huashanlunjian.amara.entity.songs.Boss;
 import com.huashanlunjian.amara.init.InitEntities;
 import com.huashanlunjian.amara.item.CreativeModTab;
