@@ -14,6 +14,7 @@ import com.huashanlunjian.amara.network.message.BackToOverworldPacket;
 import com.huashanlunjian.amara.utils.ChartUtil;
 import com.huashanlunjian.amara.utils.sounds.MpegPlayer;
 import com.huashanlunjian.amara.utils.sounds.OggPlayer;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,6 +22,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -58,7 +60,7 @@ public class Boss extends AbstractSongsEntity implements FlyingAnimal {
      * 事实上使用通用的构建方式也并不是很难写*/
     private final Queue<AbstractNote> queue = new ConcurrentLinkedQueue<>();
     private Vec3 originSpeed = new Vec3(0,0,0);
-    private Vec3 originPosition = new Vec3(-9,7,-9);
+    private Vec3 originPosition = new Vec3(-10,7,-10);
     private int noteAmount;
     private int hit = 0;
     ////////////////////////////////////////////////////
@@ -96,7 +98,7 @@ public class Boss extends AbstractSongsEntity implements FlyingAnimal {
         this.entity = this;
         this.noteAmount = chartNotes.size();
         for (int i = 0; i < noteAmount; i++){
-            queue.add(new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(random.nextFloat()/4,-random.nextFloat()/4,random.nextFloat()/4), this, chart.getNoteEvents(i)));
+            queue.add(new Tap(this.level(), this.position().x, this.position().y, this.position().z,new Vec3(random.nextFloat()/5,-random.nextFloat()/5,random.nextFloat()/5), this, chart.getNoteEvents(i)));
         }
         /////////////////////////////////////////////////////////////////////////////////
         if (chart.getBossEvents()!=null) {
@@ -114,16 +116,17 @@ public class Boss extends AbstractSongsEntity implements FlyingAnimal {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new MoveTowardsRestrictionGoal(this, 1.0));
-        goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        //goalSelector.addGoal(1, new MoveTowardsRestrictionGoal(this, 1.0));
+        //goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8.0F));
     }
-    public static AttributeSupplier.Builder createFairyAttributes() {
-        return Monster.createMonsterAttributes()
+    public static AttributeSupplier.Builder createMobAttributes() {
+        return Mob.createMobAttributes()
                 .add(Attributes.FOLLOW_RANGE, 90.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.ATTACK_DAMAGE, 1.5)
                 .add(Attributes.ARMOR, 1.)
-                .add(Attributes.FLYING_SPEED, 0.4);
+                .add(Attributes.FLYING_SPEED, 0.4)
+                .add(Attributes.MAX_HEALTH, 20.0);
     }
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -146,7 +149,7 @@ public class Boss extends AbstractSongsEntity implements FlyingAnimal {
         super.tick();
 
         if (!this.level().isClientSide()) {
-            this.lookAt(player, 360, 360);
+            this.lookAt(EntityAnchorArgument.Anchor.EYES, player.getEyePosition(1.0f));
             //这里目标是boss的坐标和玩家在相对位移情况下保持同步
             if (this.originSpeed.length()==0) this.setPos(player.getX()+originPosition.x, player.getY()+originPosition.y, player.getZ()+originPosition.z);
             else this.moveTo(originSpeed.x()+player.getDeltaMovement().x(), originSpeed.y()+player.getDeltaMovement().y(), originSpeed.z()+player.getDeltaMovement().z());
@@ -162,8 +165,10 @@ public class Boss extends AbstractSongsEntity implements FlyingAnimal {
                             index++;
                         }
                         else {
-                            this.discard();
-                            PacketDistributor.sendToPlayer((ServerPlayer) player,new BackToOverworldPacket(this.getHit(), this.getNoteAmount()));
+                            if (getTime()>songTime){
+                                this.discard();
+                                PacketDistributor.sendToPlayer((ServerPlayer) player,new BackToOverworldPacket(this.getHit(), this.getNoteAmount()));
+                            }
                             break;
                         }
                     }else break;

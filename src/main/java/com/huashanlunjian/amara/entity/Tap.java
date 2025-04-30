@@ -17,6 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Tap extends AbstractNote {
 
@@ -51,7 +52,7 @@ public class Tap extends AbstractNote {
         Entity entity = result.getEntity();
         if (entity instanceof Player) {
             entity.hurt(this.damageSources().thrown(this, this), 2.0F);
-            ((Boss)this.getOwner()).onHit();
+            ((Boss) Objects.requireNonNull(this.getOwner())).onHit();
             this.discard();
         }
     }
