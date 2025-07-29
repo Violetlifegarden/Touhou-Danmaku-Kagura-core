@@ -10,5 +10,4 @@
 
 作者已经暂停考虑关于适配Arcaea和Phira谱面的更新计划。解析起来很麻烦，解析效果大概率也不好。
 
-
-演示版见【当Minecraft变成弹幕游戏】 https://www.bilibili.com/video/BV1rDoNYYEgB/?share_source=copy_web&vd_source=e8ea25d1cfee9a7f32e63ba6046285a9
+本mod适用于Minecraft 1.21.1版本。
